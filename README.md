@@ -1,4 +1,4 @@
-Role Name
+ZSH
 =========
 
 A personal role to install and configure ZSH. This role is not designed for publishing on Galaxy yet.
