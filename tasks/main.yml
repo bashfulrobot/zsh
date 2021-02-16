@@ -11,145 +11,145 @@
 
 - name: Change current user shell
   user:
-        name: "{{ MY_USERNAME }}"
+        name: "{{ lookup('env','USER') }}"
         shell: /usr/bin/zsh
   become: yes
 
 - name: Clone oh-my-zsh
   git:
       repo: https://github.com/robbyrussell/oh-my-zsh.git
-      dest: "/home/{{ MY_USERNAME }}/.oh-my-zsh"
+      dest: "/home/{{ lookup('env','USER') }}/.oh-my-zsh"
       update: no
   register: omz_clone
 
 - name: Clone zsh-autosuggestions
   git:
         repo: https://github.com/zsh-users/zsh-autosuggestions.git
-        dest: "/home/{{ MY_USERNAME }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
+        dest: "/home/{{ lookup('env','USER') }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
         update: yes
 
 - name: Clone zsh-history-substring-search
   git:
         repo: https://github.com/zsh-users/zsh-history-substring-search.git
-        dest: "/home/{{ MY_USERNAME }}/.oh-my-zsh/custom/plugins/zsh-history-substring-search"
+        dest: "/home/{{ lookup('env','USER') }}/.oh-my-zsh/custom/plugins/zsh-history-substring-search"
         update: yes
 
 - name: Clone zsh-syntax-highlighting
   git:
         repo: https://github.com/zsh-users/zsh-syntax-highlighting.git
-        dest: "/home/{{ MY_USERNAME }}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
+        dest: "/home/{{ lookup('env','USER') }}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
         update: yes
 
 - name: Clone powerlevel10k Theme
   git:
         repo: https://github.com/romkatv/powerlevel10k.git
-        dest: "/home/{{ MY_USERNAME }}/.oh-my-zsh/custom/themes/powerlevel10k"
+        dest: "/home/{{ lookup('env','USER') }}/.oh-my-zsh/custom/themes/powerlevel10k"
         update: yes
 
 - name: Clone zsh-z
   git:
         repo: https://github.com/agkozak/zsh-z.git
-        dest: "/home/{{ MY_USERNAME }}/.oh-my-zsh/custom/plugins/zsh-z"
+        dest: "/home/{{ lookup('env','USER') }}/.oh-my-zsh/custom/plugins/zsh-z"
         update: yes
 
 - name: check if .zshrc exists
   when: install_zsh is success
   stat:
-        path: "/home/{{ MY_USERNAME }}/.zshrc"
+        path: "/home/{{ lookup('env','USER') }}/.zshrc"
   register: zshrc
 
 - name: back up existing .zshrc file if it exists
   when: zshrc.stat.exists
   copy:
-        src: "/home/{{ MY_USERNAME }}/.zshrc"
-        dest: "/home/{{ MY_USERNAME }}/.zshrc-orig"
+        src: "/home/{{ lookup('env','USER') }}/.zshrc"
+        dest: "/home/{{ lookup('env','USER') }}/.zshrc-orig"
 
 - name: Creating new ~/.zshrc
   copy:
-        src: "/home/{{ MY_USERNAME }}/.oh-my-zsh/templates/zshrc.zsh-template"
-        dest: "/home/{{ MY_USERNAME }}/.zshrc"
+        src: "/home/{{ lookup('env','USER') }}/.oh-my-zsh/templates/zshrc.zsh-template"
+        dest: "/home/{{ lookup('env','USER') }}/.zshrc"
   when: omz_clone is success
   register: created_zshrc
 
 - name: Enable 10k theme in ZSH
   lineinfile:
-        path: "/home/{{ MY_USERNAME }}/.zshrc"
+        path: "/home/{{ lookup('env','USER') }}/.zshrc"
         regexp: "^ZSH_THEME="
         line: "ZSH_THEME='powerlevel10k/powerlevel10k'"
 
 # - name: Placing Starship config for prompt
 #   copy:
 #     src: files/.config/starship.toml
-#     dest: "/home/{{ MY_USERNAME }}/.config/starship.toml"
-#     owner: "{{ MY_USERNAME }}"
-#     group: "{{ MY_USERNAME }}"
+#     dest: "/home/{{ lookup('env','USER') }}/.config/starship.toml"
+#     owner: "{{ lookup('env','USER') }}"
+#     group: "{{ lookup('env','USER') }}"
 
 - name: Placing general.zsh CFG
   copy:
         src: home/.oh-my-zsh/custom/general.zsh
-        dest: "/home/{{ MY_USERNAME }}/.oh-my-zsh/custom/general.zsh"
-        owner: "{{ MY_USERNAME }}"
-        group: "{{ MY_USERNAME }}"
+        dest: "/home/{{ lookup('env','USER') }}/.oh-my-zsh/custom/general.zsh"
+        owner: "{{ lookup('env','USER') }}"
+        group: "{{ lookup('env','USER') }}"
 
 - name: Placing plugins.zsh CFG
   copy:
         src: home/.oh-my-zsh/custom/plugins.zsh
-        dest: "/home/{{ MY_USERNAME }}/.oh-my-zsh/custom/plugins.zsh"
-        owner: "{{ MY_USERNAME }}"
-        group: "{{ MY_USERNAME }}"
+        dest: "/home/{{ lookup('env','USER') }}/.oh-my-zsh/custom/plugins.zsh"
+        owner: "{{ lookup('env','USER') }}"
+        group: "{{ lookup('env','USER') }}"
 
 - name: Placing aliases.zsh CFG
   copy:
         src: home/.oh-my-zsh/custom/aliases.zsh
-        dest: "/home/{{ MY_USERNAME }}/.oh-my-zsh/custom/aliases.zsh"
-        owner: "{{ MY_USERNAME }}"
-        group: "{{ MY_USERNAME }}"
+        dest: "/home/{{ lookup('env','USER') }}/.oh-my-zsh/custom/aliases.zsh"
+        owner: "{{ lookup('env','USER') }}"
+        group: "{{ lookup('env','USER') }}"
 
 - name: Placing functions.zsh CFG
   copy:
         src: home/.oh-my-zsh/custom/functions.zsh
-        dest: "/home/{{ MY_USERNAME }}/.oh-my-zsh/custom/functions.zsh"
-        owner: "{{ MY_USERNAME }}"
-        group: "{{ MY_USERNAME }}"
+        dest: "/home/{{ lookup('env','USER') }}/.oh-my-zsh/custom/functions.zsh"
+        owner: "{{ lookup('env','USER') }}"
+        group: "{{ lookup('env','USER') }}"
 
 - name: Placing path.zsh CFG
   copy:
         src: home/.oh-my-zsh/custom/path.zsh
-        dest: "/home/{{ MY_USERNAME }}/.oh-my-zsh/custom/path.zsh"
-        owner: "{{ MY_USERNAME }}"
-        group: "{{ MY_USERNAME }}"
+        dest: "/home/{{ lookup('env','USER') }}/.oh-my-zsh/custom/path.zsh"
+        owner: "{{ lookup('env','USER') }}"
+        group: "{{ lookup('env','USER') }}"
 
 - name: Placing util-functions.zsh CFG
   copy:
         src: home/.oh-my-zsh/custom/util-functions.zsh
-        dest: "/home/{{ MY_USERNAME }}/.oh-my-zsh/custom/util-functions.zsh"
-        owner: "{{ MY_USERNAME }}"
-        group: "{{ MY_USERNAME }}"
+        dest: "/home/{{ lookup('env','USER') }}/.oh-my-zsh/custom/util-functions.zsh"
+        owner: "{{ lookup('env','USER') }}"
+        group: "{{ lookup('env','USER') }}"
 
 - name: Placing prompt.zsh CFG
   copy:
         src: home/.oh-my-zsh/custom/prompt.zsh
-        dest: "/home/{{ MY_USERNAME }}/.oh-my-zsh/custom/prompt.zsh"
-        owner: "{{ MY_USERNAME }}"
-        group: "{{ MY_USERNAME }}"
+        dest: "/home/{{ lookup('env','USER') }}/.oh-my-zsh/custom/prompt.zsh"
+        owner: "{{ lookup('env','USER') }}"
+        group: "{{ lookup('env','USER') }}"
 
 - name: Placing .p10k.zsh CFG
   copy:
         src: home/.p10k.zsh
-        dest: "/home/{{ MY_USERNAME }}/.p10k.zsh"
-        owner: "{{ MY_USERNAME }}"
-        group: "{{ MY_USERNAME }}"
+        dest: "/home/{{ lookup('env','USER') }}/.p10k.zsh"
+        owner: "{{ lookup('env','USER') }}"
+        group: "{{ lookup('env','USER') }}"
 
 - name: Placing cheatsheets.zsh CFG
   copy:
         src: home/.oh-my-zsh/custom/cheatsheets.zsh
-        dest: "/home/{{ MY_USERNAME }}/.oh-my-zsh/custom/cheatsheets.zsh"
-        owner: "{{ MY_USERNAME }}"
-        group: "{{ MY_USERNAME }}"
+        dest: "/home/{{ lookup('env','USER') }}/.oh-my-zsh/custom/cheatsheets.zsh"
+        owner: "{{ lookup('env','USER') }}"
+        group: "{{ lookup('env','USER') }}"
 
 - name: Placing aws-cli.zsh CFG
   copy:
         src: home/.oh-my-zsh/custom/aws-cli.zsh
-        dest: "/home/{{ MY_USERNAME }}/.oh-my-zsh/custom/aws-cli.zsh"
-        owner: "{{ MY_USERNAME }}"
-        group: "{{ MY_USERNAME }}"
+        dest: "/home/{{ lookup('env','USER') }}/.oh-my-zsh/custom/aws-cli.zsh"
+        owner: "{{ lookup('env','USER') }}"
+        group: "{{ lookup('env','USER') }}"

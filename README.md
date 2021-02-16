@@ -12,7 +12,7 @@ Requirements
 Role Variables
 --------------
 
-This role requires `MY_USERNAME` to be set. This needs to be set to the name of your home folder and user ID.
+No vaiable in play. The user and home is set via `{{ lookup('env','USER') }}`.
 
 Dependencies
 ------------
