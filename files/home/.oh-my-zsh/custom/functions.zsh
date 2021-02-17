@@ -88,3 +88,74 @@ bwcopy() {
         bw get item "$(bw list items | jq '.[] | "\(.name) | username: \(.login.username) | id: \(.id)" ' | fzf-tmux | awk '{print $(NF -0)}' | sed 's/\"//g')" | jq '.login.password' | sed 's/\"//g' | xclip -sel clip
     fi
 }
+
+function new-gh-repo() {
+    gh repo create $1
+    cd $1
+    git checkout -b main
+    git branch -D master
+
+    cat <<EOF >LICENSE
+MIT License
+
+Copyright (c) 2021 Dustin Krysak
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+EOF
+
+    cat <<EOF2 >README.md
+# $1
+
+## About
+
+*** This $(README.md) was generated automatically. ***
+
+$1 has only had the initial commit, so this document is a work in progress.
+
+## Getting Started
+
+Document how $1 will be installed and ready to use.
+
+### Prerequisites
+
+Describe any dependencies $1 will need.
+
+## Usage
+
+Describe how to use $1.
+
+## License
+
+MIT
+
+## Author
+
+Dustin Krysak
+
+## Credits
+
+If derived from other works, give credit to the authors.
+
+EOF2
+
+    git add LICENSE README.md
+    git commit -m "🎉 Initial commit"
+    git push
+}
