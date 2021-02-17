@@ -157,5 +157,5 @@ EOF2
 
     git add LICENSE README.md
     git commit -m "🎉 Initial commit"
-    git push
+    git push --set-upstream origin main
 }
