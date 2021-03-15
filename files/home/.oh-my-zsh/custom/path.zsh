@@ -9,6 +9,7 @@
 # Add GOBIN
 export GOBIN=$HOME/go/bin
 export PATH=$GOBIN:$PATH
+export PATH=$PATH:/usr/local/go/bin
 
 # Add PIP binaries
 export PATH=$HOME/.local/bin:$PATH
