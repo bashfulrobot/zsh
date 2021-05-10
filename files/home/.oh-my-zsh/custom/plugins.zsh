@@ -24,4 +24,5 @@ plugins=(
     zsh-syntax-highlighting
     zsh-autosuggestions
     zsh-z
+    dotenv
 )
