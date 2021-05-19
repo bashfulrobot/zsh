@@ -6,23 +6,40 @@
 # My zsh plugins
 plugins=(
     git
+    git-auto-fetch
     ansible
     aws
     colored-man-pages
     colorize
+    command-not-found
     common-aliases
+    cp
     docker
     docker-compose
+    doctl
+    extract
+    fd
     github
+    gcloud
+    helm
+    httpie
+    kubectl
+    last-working-dir
+    pass
     rsync
+    ripgrep
     systemd
+    sudo
+    terraform
     themes
+    transfer
     tmux
     ubuntu
     ufw
+    vault
     vscode
     zsh-syntax-highlighting
     zsh-autosuggestions
-    zsh-z
+    z
     dotenv
 )
